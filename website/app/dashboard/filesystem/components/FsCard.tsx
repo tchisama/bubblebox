@@ -1,7 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { FileIcon, FolderIcon, MoreVertical } from "lucide-react";
+import { FileIcon, FileLockIcon, FolderIcon, FolderLockIcon, MoreVertical } from "lucide-react";
 import { useEffect, useState } from "react";
 
 
@@ -16,7 +16,7 @@ import {
 import { axios } from "@/axios";
 import { useFilesystem } from "@/store/filesystem";
 export const FsCard = ({file}:any)=>{
-  const {setPath} = useFilesystem()
+  const {setPath,setFileslist,fileslist} = useFilesystem()
 return(
 <Card  onClick={()=>{setPath(file.path)}} className="p-4 group duration-300 hover:bg-[#fff1] bg-[#ffffff06] cursor-pointer flex items-center gap-4">
       {
@@ -44,11 +44,22 @@ return(
                 if(newName){
                   axios.post("/rename",{path:file.path,name:newName}).then(()=>{
                     file.name = newName
-                  })
+                })
                 }
               }
             }>Rename</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem 
+            onClick={
+              (e)=>{
+                e.stopPropagation()
+                const confirm = window.confirm("Are you sure you want to delete this file?")
+                if(!confirm ) return null
+                axios.post("/delete",{path:file.path}).then(()=>{
+                  setFileslist(fileslist.filter((f:any)=>f.path != file.path))
+                })
+              }
+            }
+          >Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 </Card>

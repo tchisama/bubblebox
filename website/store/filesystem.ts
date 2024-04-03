@@ -21,7 +21,7 @@ type State = {
 
 export const useFilesystem = create<State>((set) => ({
   fileslist: [],
-  path: "/home/tchisama/bubblebox",
+  path: "/home/tchisama/bubblebox-testing",
   setFileslist: (fileslist) => set({fileslist}),
   setPath: (path) => set({path}),
   selectMode: false,

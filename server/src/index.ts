@@ -39,8 +39,6 @@ app.post("/createfolder", async (context)=>{
   }
 })
 
-
-
 app.post("/rename", async (context)=>{
   const { path, name } = context.body as { path: string, name: string };
   const oldPath = path;
@@ -55,6 +53,32 @@ app.post("/rename", async (context)=>{
   return { success: true };
 })
 
+app.post("/delete", async (context)=>{
+  const { path } = context.body as { path: string };
+  // if its a file or a directory
+  fs.rm(path, { recursive: true }, (err) => {
+    if (err) {
+      console.error("Error deleting folder:", err);
+    } else {
+      console.log("Folder deleted successfully!");
+    }
+  })
+  return { success: true };
+})
+
+// execute commands 
+app.post("/execute", async (context)=>{
+  const { command } = context.body as { command: string };
+  const exec = require('child_process').exec;
+  const output = await exec(command, (err: any, stdout: any, stderr: any) => {
+    if (err) {
+      console.error(err);
+      return stderr;
+    }
+    return stdout
+  });
+  return JSON.stringify(output)
+})
 
 
 
