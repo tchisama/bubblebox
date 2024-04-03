@@ -25,6 +25,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { FsCard } from "./components/FsCard";
 
 export default function Dashboard() {
   const {path,setFileslist,fileslist,setPath} = useFilesystem()
@@ -55,7 +56,7 @@ export default function Dashboard() {
 
   return (
     <div >
-      <Breadcrumb className="px-4">
+      <Breadcrumb className="px-4 mt-4">
         <BreadcrumbList>
           {
             path.slice(1).split("/").map((_,i) => {
@@ -86,37 +87,3 @@ export default function Dashboard() {
 
 
 
-const FsCard = ({file}:any)=>{
-  const {setPath} = useFilesystem()
-return(
-<Card  onClick={()=>{setPath(file.path)}} className="p-4 group duration-300 hover:bg-[#fff1] bg-[#ffffff06] cursor-pointer flex items-center gap-4">
-      {
-        file.type == "folder" ? <FolderIcon color='#00bbf9' size={40} strokeWidth={1}/>:
-        <FileIcon color='#fff6' size={30} strokeWidth={1}/>
-      }
-        <div>
-          <div>{file.name}</div>
-          <div className="text-xs text-white/50">34 items</div>
-        </div>
-
-        <DropdownMenu >
-            <DropdownMenuTrigger asChild>
-              <Button className="ml-auto md:opacity-0 group-hover:opacity-100 duration-300 " variant={"ghost"} size="icon">
-                  <MoreVertical size={15} />
-              </Button>
-            </DropdownMenuTrigger>
-          <DropdownMenuContent className="dark">
-            <DropdownMenuItem>Open</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={
-              (e)=>{
-                e.stopPropagation()
-                console.log("rename")
-              }
-            }>Rename</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-</Card>
-)
-}

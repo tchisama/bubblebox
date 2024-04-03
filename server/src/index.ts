@@ -2,7 +2,7 @@ import { Elysia } from "elysia";
 import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { cors } from '@elysiajs/cors'
-
+import * as fs from "fs";
 import { mkdir } from 'node:fs/promises';
 const app = new Elysia()
     .use(cors())
@@ -38,6 +38,23 @@ app.post("/createfolder", async (context)=>{
     return { success: false };
   }
 })
+
+
+
+app.post("/rename", async (context)=>{
+  const { path, name } = context.body as { path: string, name: string };
+  const oldPath = path;
+  const newPath = join(path.split("/").slice( 0,-1 ).join("/"),name)
+  fs.rename(oldPath, newPath, (err) => {
+    if (err) {
+      console.error("Error renaming folder:", err);
+    } else {
+      console.log("Folder renamed successfully!");
+    }
+  });
+  return { success: true };
+})
+
 
 
 
