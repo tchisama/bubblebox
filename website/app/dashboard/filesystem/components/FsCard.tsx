@@ -42,7 +42,7 @@ return(
                 e.stopPropagation()
                 const newName = prompt("Enter new name");
                 if(newName){
-                  axios.post("/rename",{path:file.path,name:newName}).then(()=>{
+                  axios.post("/filesystem/rename",{path:file.path,name:newName}).then(()=>{
                     file.name = newName
                 })
                 }
@@ -54,7 +54,7 @@ return(
                 e.stopPropagation()
                 const confirm = window.confirm("Are you sure you want to delete this file?")
                 if(!confirm ) return null
-                axios.post("/delete",{path:file.path}).then(()=>{
+                axios.post("/filesystem/delete",{path:file.path}).then(()=>{
                   setFileslist(fileslist.filter((f:any)=>f.path != file.path))
                 })
               }

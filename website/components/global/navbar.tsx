@@ -66,21 +66,6 @@ export const Navbar =()=>{
 
 
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="/dashboard/terminal"
-                className="flex h-9 w-9 items-center justify-center rounded-lg  text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-              >
-                <SquareTerminal className="h-5 w-5" />
-                <span className="sr-only">Filesystem</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">Filesystem</TooltipContent>
-          </Tooltip>
-
-
-
 
 
         </nav>

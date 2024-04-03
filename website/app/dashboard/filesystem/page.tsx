@@ -31,7 +31,7 @@ export default function Dashboard() {
   const {path,setFileslist,fileslist,setPath} = useFilesystem()
 
   useEffect(() => {
-  axios.post("/filelist",{path}).then((res) => {
+  axios.post("/filesystem/filelist",{path}).then((res) => {
       // i want to order by type folders first then files
     setFileslist(res.data.sort((a:File,b:File) => {
       if(a.type == "folder" && b.type == "file"){
