@@ -70,7 +70,7 @@ export const DashboardMain =()=>{
 
 
 
-                <Card>
+                <Card className=" bg-[#ffffff06] ">
                   <CardHeader className="pb-2">
                     <CardDescription>Memory</CardDescription>
                     <CardTitle className="text-5xl">75 %</CardTitle>
@@ -86,7 +86,7 @@ export const DashboardMain =()=>{
                 </Card> 
 
 
-              <Card>
+              <Card className=" bg-[#ffffff06] ">
                 <CardHeader className="pb-2">
                   <CardDescription>Storage</CardDescription>
                   <CardTitle className="text-5xl">50 %</CardTitle>
