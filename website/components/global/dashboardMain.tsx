@@ -1,10 +1,4 @@
-import {
-  File,
-  ListFilter,
-} from "lucide-react"
-
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+"use client"
 import {
   Card,
   CardContent,
@@ -13,58 +7,51 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+
 import { Progress } from "@/components/ui/progress"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
+import { Button } from "../ui/button"
+import { useEffect,useState } from "react";
+import { axios } from "@/axios";
 export const DashboardMain =()=>{
+  const [cpu, setCPU] = useState({cpuUsage:0,cpuInfo:""});
+  const [memory, setMemory] = useState({memoryUsage:0,memoryInfo:""});
+  const [storage, setStorage] = useState(0);
+
+
+  useEffect(()=>{
+    axios('/homepage/cpu').then(res=>setCPU(res.data))
+    axios('/homepage/memory').then(res=>setMemory(res.data))
+  },[])
+
+
   return(
           <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
             <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-              {/* <Card className="sm:col-span-2"> */}
-              {/*   <CardHeader className="pb-3"> */}
-              {/*     <CardTitle>Your Orders</CardTitle> */}
-              {/*     <CardDescription className="max-w-lg text-balance leading-relaxed"> */}
-              {/*       Introducing Our Dynamic Orders Dashboard for Seamless */}
-              {/*       Management and Insightful Analysis. */}
-              {/*     </CardDescription> */}
-              {/*   </CardHeader> */}
-              {/*   <CardFooter> */}
-              {/*     <Button>Create New Order</Button> */}
-              {/*   </CardFooter> */}
-              {/* </Card> */}
+              <Card className="sm:col-span-2">
+                <CardHeader className="pb-3">
+                  <CardTitle>Your Orders</CardTitle>
+                  <CardDescription className="max-w-lg text-balance leading-relaxed">
+                    Introducing Our Dynamic Orders Dashboard for Seamless
+                    Management and Insightful Analysis.
+                  </CardDescription>
+                </CardHeader>
+                <CardFooter>
+                  <Button>Create New Order</Button>
+                </CardFooter>
+              </Card>
 
               <Card className="bg-gradient-to-br from-[#00bbf9] to-[#00f5d4] ">
                 <CardHeader className="pb-2">
                   <CardDescription className="text-black/80">CPU</CardDescription>
-                  <CardTitle className="text-5xl text-black/80">15 %</CardTitle>
+                  <CardTitle className="text-5xl text-black/80">{cpu.cpuUsage} %</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-xs text-black/80">
-                    1.5 GHz used of 3.0 GHz
+                    {cpu.cpuInfo}
                   </div>
                 </CardContent>
                 <CardFooter className="">
-                  <Progress className="bg-black/40 border-2 border-[#0002]"  value={25} aria-label="25% increase" />
+                  <Progress className="bg-black/40 border-2 border-[#0002]"  value={cpu.cpuUsage} aria-label="25% increase" />
                 </CardFooter>
               </Card>
 
@@ -73,34 +60,34 @@ export const DashboardMain =()=>{
                 <Card className=" bg-[#ffffff06] ">
                   <CardHeader className="pb-2">
                     <CardDescription>Memory</CardDescription>
-                    <CardTitle className="text-5xl">75 %</CardTitle>
+                    <CardTitle className="text-5xl">{memory.memoryUsage} %</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-xs text-muted-foreground">
-                      12 GB used of 16 GB
-                    </div>
+                      {memory.memoryInfo}
+                      </div>
                   </CardContent>
                   <CardFooter>
-                    <Progress value={25} aria-label="5% decrease" />
+                    <Progress value={memory.memoryUsage} aria-label="5% decrease" />
                   </CardFooter>
                 </Card> 
 
 
-              <Card className=" bg-[#ffffff06] ">
-                <CardHeader className="pb-2">
-                  <CardDescription>Storage</CardDescription>
-                  <CardTitle className="text-5xl">50 %</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-xs text-muted-foreground">
-                      123 GB used of 250 GB
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Progress value={25} aria-label="25% increase" />
-                </CardFooter>
-              </Card>
-
+              {/* <Card className=" bg-[#ffffff06] "> */}
+              {/*   <CardHeader className="pb-2"> */}
+              {/*     <CardDescription>Storage</CardDescription> */}
+              {/*     <CardTitle className="text-5xl">50 %</CardTitle> */}
+              {/*   </CardHeader> */}
+              {/*   <CardContent> */}
+              {/*     <div className="text-xs text-muted-foreground"> */}
+              {/*         123 GB used of 250 GB */}
+              {/*     </div> */}
+              {/*   </CardContent> */}
+              {/*   <CardFooter> */}
+              {/*     <Progress value={25} aria-label="25% increase" /> */}
+              {/*   </CardFooter> */}
+              {/* </Card> */}
+              {/**/}
         </div>
         </div>
 
