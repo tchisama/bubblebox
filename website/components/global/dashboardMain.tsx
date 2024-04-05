@@ -12,6 +12,7 @@ import { Progress } from "@/components/ui/progress"
 import { Button } from "../ui/button"
 import { useEffect,useState } from "react";
 import { axios } from "@/axios";
+import { CpuIcon, DatabaseIcon } from "lucide-react";
 export const DashboardMain =()=>{
   const [cpu, setCPU] = useState({cpuUsage:0,cpuInfo:""});
   const [memory, setMemory] = useState({memoryUsage:0,memoryInfo:""});
@@ -42,11 +43,11 @@ export const DashboardMain =()=>{
 
               <Card className="bg-gradient-to-br from-[#00bbf9] to-[#00f5d4] ">
                 <CardHeader className="pb-2">
-                  <CardDescription className="text-black/80">CPU</CardDescription>
+                  <CardDescription className="text-black/80 flex gap-2 items-center"><CpuIcon/>CPU</CardDescription>
                   <CardTitle className="text-5xl text-black/80">{cpu.cpuUsage} %</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-xs text-black/80">
+                  <div className="text-xs h-4 text-black/80">
                     {cpu.cpuInfo}
                   </div>
                 </CardContent>
@@ -59,7 +60,7 @@ export const DashboardMain =()=>{
 
                 <Card className=" bg-[#ffffff06] ">
                   <CardHeader className="pb-2">
-                    <CardDescription>Memory</CardDescription>
+                    <CardDescription className="flex gap-2"><DatabaseIcon/> Memory</CardDescription>
                     <CardTitle className="text-5xl">{memory.memoryUsage} %</CardTitle>
                   </CardHeader>
                   <CardContent>

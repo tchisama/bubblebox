@@ -13,6 +13,8 @@ type State = {
   path: string
   setFileslist: (fileslist: File[]) => void
   setPath: (path: string) => void
+  update: number,
+  setUpdate: (update: number) => void
   selectMode: boolean
   setSelectMode: (selectMode: boolean) => void
   selected: string[]
@@ -25,6 +27,8 @@ export const useFilesystem = create<State>((set) => ({
   setFileslist: (fileslist) => set({fileslist}),
   setPath: (path) => set({path}),
   selectMode: false,
+  update: 0,
+  setUpdate: (update) => set({update}),
   setSelectMode: (selectMode) => set({selectMode}),
   selected: [],
   setSelected: (selected) => set({selected})

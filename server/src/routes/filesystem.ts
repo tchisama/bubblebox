@@ -3,6 +3,7 @@ import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import * as fs from "fs";
 import { mkdir } from 'node:fs/promises';
+const { spawn } = require('child_process');
 
 export const filesystemRoutes = new Elysia()
 
@@ -64,16 +65,38 @@ filesystemRoutes.post("/delete", async (context)=>{
 // execute commands 
 filesystemRoutes.post("/execute", async (context)=>{
   const { command } = context.body as { command: string };
-  const exec = require('child_process').exec;
-  const output = await exec(command, (err: any, stdout: any, stderr: any) => {
-    if (err) {
-      console.error(err);
-      return stderr;
-    }
-    return stdout
+
+  return new Promise((resolve, reject) => {
+    const child = spawn('/bin/sh', ['-c', command]);
+
+    let stdoutData = '';
+    let stderrData = '';
+
+    child.stdout.on('data', (data:any) => {
+      stdoutData += data;
+      console.log(`stdout: ${data}`);
+    });
+
+    child.stderr.on('data', (data:any) => {
+      stderrData += data;
+      console.error(`stderr: ${data}`);
+    });
+
+    child.on('close', (code:any) => {
+      console.log(`child process exited with code ${code}`);
+      if (code === 0) {
+        resolve(stdoutData); // Resolve with stdout data
+      } else {
+        reject(stderrData); // Reject with stderr data
+      }
+    });
+
+    child.on('error', (err:any) => {
+      console.error(`Error occurred: ${err}`);
+      reject(err); // Reject with error
+    });
   });
-  return JSON.stringify(output)
-})
+});
 
 
 

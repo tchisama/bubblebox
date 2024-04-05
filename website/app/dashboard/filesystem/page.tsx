@@ -26,9 +26,10 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { FsCard } from "./components/FsCard";
+import { PromptInput } from "./components/PromptInput";
 
 export default function Dashboard() {
-  const {path,setFileslist,fileslist,setPath} = useFilesystem()
+  const {path,update,setFileslist,fileslist,setPath} = useFilesystem()
 
   useEffect(() => {
   axios.post("/filesystem/filelist",{path}).then((res) => {
@@ -52,23 +53,24 @@ export default function Dashboard() {
   }).catch((err) => {
     console.log(err)
   })
-  },[path])
+  },[path,update])
 
   return (
     <div >
+      <PromptInput />
       <Breadcrumb className="px-4 mt-4">
         <BreadcrumbList>
           {
             path.slice(1).split("/").map((_,i) => {
               return(
-                <>
+                <div key={i} className="flex items-center gap-2">
                 <BreadcrumbItem className="cursor-pointer">
                   <BreadcrumbLink onClick={()=>{setPath(path.split("/").slice(0,i+2).join("/"))}}>{_}</BreadcrumbLink>
                 </BreadcrumbItem>
                 {
                   i != path.split("/").length-1 && <BreadcrumbSeparator />
                 }
-                </>
+                </div>
               )
             })
           }
